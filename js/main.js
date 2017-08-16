@@ -37,7 +37,7 @@
       var method = "GET";
 
       //grabbing the container of display album
-      var container = document.querySelector("album_list_container");
+      var container = document.querySelector("#album_list_container");
       //clear the container because what if user enters other values?
       container.innerHTML = "";
 
@@ -57,10 +57,37 @@
       http.send();
   };
 
-  this.showArtist(jsonObj) {
-      var container = document.querySelector("album_list_container");
+  this.showArtist = function(jsonObj) {
+      var container = document.querySelector("#album_list_container");
       //template for building the album list
       var template = "";
+      //error msg when results not found
+      var notFound = document.querySelector("#not_match");
+      console.log(jsonObj.results[0]);
+      //if there are no results, i need to have an error msg
+      if(jsonObj.results.length > 0) {
+        //hide error msg
+        notFound.style.display = "none";
+        //loop the results
+        for(var i = 0; i < jsonObj.results.length; i++){
+        //build template for all album display
+          template += '<div class="col-sm-3 album_item">';
+          template +=      '<div class="item_thmb" style="background:url('+jsonObj.results[i].artworkUrl100+');"></div>';
+          template +=      '<div class="item_title">'+jsonObj.results[i].collectionName+'</div>';
+          template +=      '<div class="item_price">';
+          template +=           '<span>Price:</span> $'+jsonObj.results[i].collectionPrice+'';
+          template +=      '</div>';
+          template +=      '<a href="'+jsonObj.results[i].collectionViewUrl+'" target="_blank">Buy Now</a>';
+          template += '</div>';
+
+          }
+        //clear container items
+        container.innerHTML = "";
+        container.insertAdjacentHTML("afterbegin", template);
+      } else {
+        //error msg display block
+        notFound.style.display = "block";
+      }
   };
 
   this.init();
