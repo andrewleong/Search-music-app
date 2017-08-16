@@ -63,7 +63,7 @@
       var template = "";
       //error msg when results not found
       var notFound = document.querySelector("#not_match");
-      console.log(jsonObj.results[0]);
+      
       //if there are no results, i need to have an error msg
       if(jsonObj.results.length > 0) {
         //hide error msg
